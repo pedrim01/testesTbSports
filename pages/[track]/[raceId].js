@@ -4,10 +4,23 @@ import Link from 'next/link'
 
 // funçoes criadas para chamadas api
 import { formatDate } from '../../lib/endpoints'
+import { getPistasRacingPost } from '../../lib/endpoints'
 
 export async function getStaticPaths() {
-  return {
-    paths: [
+  const data = await getPistasRacingPost()
+
+  const paths = data.list.items.map((d) => (
+    
+    {
+    params: { track: d.track,raceId: d.races[1].raceId},
+    }
+  ))
+  
+  console.log(paths)
+
+  return { paths, fallback: "blocking" }
+
+    /*  paths: [
       {
         params: {
           track: 'Oxford',
@@ -20,9 +33,8 @@ export async function getStaticPaths() {
           raceId: '1957318',
         },
       },
-    ],
-    fallback: true, // can also be true or 'blocking'
-  }
+    ], */
+
 }
 
 export async function getStaticProps(context) {

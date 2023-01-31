@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   }
 }
 
@@ -33,6 +33,7 @@ export async function getStaticProps(context) {
 
   return {
     props: races,
+    revalidate: 10,
   }
 }
 
@@ -46,10 +47,8 @@ export default function Track({ races }) {
       <ul className={styles.Uklist}>
         {races.map((race) => (
           <li key={race.raceId}>
-            <Link href={`/${track}/${race.raceId}`}>
-            {race.raceId}
-            </Link>
-            </li>
+            <Link href={`/${track}/${race.raceId}`}>{race.raceId}</Link>
+          </li>
         ))}
       </ul>
     </>
